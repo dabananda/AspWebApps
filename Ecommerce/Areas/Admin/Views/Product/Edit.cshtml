@@ -1,0 +1,62 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="border border-1 p-3 w-75 mx-auto">
+    <h2>Edit Product</h2>
+    <form method="post">
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" placeholder="Enter Product Name">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" class="form-control" placeholder="Enter Product Description">
+        </div>
+        <div class="mb-3">
+            <label asp-for="ISBN" class="form-label"></label>
+            <input asp-for="ISBN" class="form-control" placeholder="Enter Product ISBN">
+            <span asp-validation-for="ISBN" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Author" class="form-label"></label>
+            <input asp-for="Author" class="form-control" placeholder="Enter Product Author">
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ListPrice" class="form-label"></label>
+            <input asp-for="ListPrice" class="form-control" placeholder="Enter Product List Price">
+            <span asp-validation-for="ListPrice" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" placeholder="Enter Price for 1-50 Products">
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price50" class="form-label"></label>
+            <input asp-for="Price50" class="form-control" placeholder="Enter Price for 50+ Products">
+            <span asp-validation-for="Price50" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price100" class="form-label"></label>
+            <input asp-for="Price100" class="form-control" placeholder="Enter Price for 100+ Products">
+            <span asp-validation-for="Price100" class="text-danger"></span>
+        </div>
+
+
+        <div class="d-flex justify-content-between gap-2">
+            <button type="submit" class="btn btn-primary form-control">Edit</button>
+            <a asp-controller="Product" asp-action="Index" class="form-control btn btn-secondary border border-1">Back To Product List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
