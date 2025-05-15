@@ -2,6 +2,7 @@
 using AspWebApps.DataAccess.Repository.IRepository;
 using AspWebApps.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.Areas.Admin.Controllers
 {
@@ -23,6 +24,12 @@ namespace Ecommerce.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
+            ViewBag.CategoryList = CategoryList;
             return View();
         }
 
