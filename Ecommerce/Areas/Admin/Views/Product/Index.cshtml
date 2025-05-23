@@ -24,7 +24,7 @@
                     <td>@product.Title</td>
                     <td>@product.ISBN</td>
                     <td>@product.Author</td>
-                    <td></td>
+                    <td>@product.Category.Name</td>
                     <td>@product.ListPrice</td>
                     <td>
                         <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Edit</a>
