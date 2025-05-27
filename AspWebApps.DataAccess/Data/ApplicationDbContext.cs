@@ -10,9 +10,9 @@ namespace AspWebApps.DataAccess.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Company> Companies { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +25,39 @@ namespace AspWebApps.DataAccess.Data
                 new Category { Id = 3, Name = "Meat & Fish", DisplayOrder = 3 },
                 new Category { Id = 4, Name = "Cooking Ingrediants", DisplayOrder = 4 },
                 new Category { Id = 5, Name = "Dairy", DisplayOrder = 5 }
+            );
+
+            modelBuilder.Entity<Company>().HasData(
+                new Company
+                {
+                    Id = 1,
+                    Name = "TechNova Ltd.",
+                    StreetAddress = "123 Main Street",
+                    City = "Dhaka",
+                    State = "Dhaka",
+                    PostalCode = "1207",
+                    PhoneNumber = "+8801712345678"
+                },
+                new Company
+                {
+                    Id = 2,
+                    Name = "GreenLeaf Organics",
+                    StreetAddress = "456 Garden Road",
+                    City = "Chattogram",
+                    State = "Chattogram",
+                    PostalCode = "4000",
+                    PhoneNumber = "+8801611223344"
+                },
+                new Company
+                {
+                    Id = 3,
+                    Name = "FreshMart Enterprises",
+                    StreetAddress = "789 Market Avenue",
+                    City = "Khulna",
+                    State = "Khulna",
+                    PostalCode = "9100",
+                    PhoneNumber = "+8801555667788"
+                }
             );
 
             modelBuilder.Entity<Product>().HasData(

@@ -4,6 +4,7 @@ using AspWebApps.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspWebApps.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250527113258_CompanyModel")]
+    partial class CompanyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,39 +107,7 @@ namespace AspWebApps.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Dhaka",
-                            Name = "TechNova Ltd.",
-                            PhoneNumber = "+8801712345678",
-                            PostalCode = "1207",
-                            State = "Dhaka",
-                            StreetAddress = "123 Main Street"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Chattogram",
-                            Name = "GreenLeaf Organics",
-                            PhoneNumber = "+8801611223344",
-                            PostalCode = "4000",
-                            State = "Chattogram",
-                            StreetAddress = "456 Garden Road"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Khulna",
-                            Name = "FreshMart Enterprises",
-                            PhoneNumber = "+8801555667788",
-                            PostalCode = "9100",
-                            State = "Khulna",
-                            StreetAddress = "789 Market Avenue"
-                        });
+                    b.ToTable("Companys");
                 });
 
             modelBuilder.Entity("AspWebApps.Models.Product", b =>

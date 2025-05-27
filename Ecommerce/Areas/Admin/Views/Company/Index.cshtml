@@ -1,0 +1,23 @@
+﻿<div>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2>Company List</h2>
+        <a asp-controller="Company" asp-action="Upsert" class="btn btn-lg btn-primary"><i class="bi bi-plus-circle"></i> Add New Company</a>
+    </div>
+
+    <table id="tableData" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="~/js/company.js"></script>
+}
