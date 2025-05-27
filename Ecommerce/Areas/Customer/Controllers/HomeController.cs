@@ -25,13 +25,21 @@ namespace Ecommerce.Areas.Customer.Controllers
 
         public IActionResult Details(int id)
         {
-            var product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "Category");
+            Product product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "Category");
+
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            ShoppingCart cart = new()
+            {
+                Product = product,
+                Count = 1,
+                ProductId = id
+            };
+
+            return View(cart);
         }
 
         public IActionResult Privacy()
