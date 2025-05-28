@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using AspWebApps.DataAccess.Repository.IRepository;
 using AspWebApps.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Areas.Customer.Controllers
@@ -40,6 +42,37 @@ namespace Ecommerce.Areas.Customer.Controllers
             };
 
             return View(cart);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart cart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            cart.ApplicationUserId = userId;
+
+            ShoppingCart existingCart = _unitOfWork.ShoppingCart.Get(
+                u => u.ApplicationUserId == userId && u.ProductId == cart.ProductId);
+            if (existingCart != null)
+            {
+                existingCart.Count += cart.Count;
+                _unitOfWork.ShoppingCart.Update(existingCart);
+            }
+            else
+            {
+                ShoppingCart newCart = new()
+                {
+                    ProductId = cart.ProductId,
+                    Count = cart.Count,
+                    ApplicationUserId = userId
+                };
+                _unitOfWork.ShoppingCart.Add(newCart);
+            }
+
+            _unitOfWork.Save();
+            TempData["success"] = "Item added to cart successfully!";
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
