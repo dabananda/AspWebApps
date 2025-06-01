@@ -5,6 +5,7 @@ using AspWebApps.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System.Security.Claims;
 
 namespace Ecommerce.Areas.Admin.Controllers
@@ -125,6 +126,34 @@ namespace Ecommerce.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { orderId = orderId });
         }
 
+        [HttpPost]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        public IActionResult CancelOrder(int orderId)
+        {
+            var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId);
+
+            if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Reason = RefundReasons.RequestedByCustomer,
+                    PaymentIntent = orderHeader.PaymentIntentId
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+                _unitOfWork.OrderHeader.UpdateStatus(orderId, SD.StatusCancelled, SD.StatusRefunded);
+            }
+            else
+            {
+                _unitOfWork.OrderHeader.UpdateStatus(orderId, SD.StatusCancelled, SD.StatusRefunded);
+            }
+
+            _unitOfWork.Save();
+            TempData["success"] = "Order Cancelled Successfully";
+
+            return RedirectToAction(nameof(Details), new { orderId = orderId });
+        }
+
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
@@ -141,7 +170,7 @@ namespace Ecommerce.Areas.Admin.Controllers
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                objOrderHeaders = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser").ToList(); 
+                objOrderHeaders = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser").ToList();
             }
 
             return Json(new { data = objOrderHeaders });
