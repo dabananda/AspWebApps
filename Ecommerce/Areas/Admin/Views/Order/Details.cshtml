@@ -239,7 +239,10 @@
                             @if (Model.OrderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment &&
                                                         Model.OrderHeader.OrderStatus == SD.StatusShipped)
                             {
-                                <button type="submit" class="btn btn-success form-control my-1">Pay Now</button>
+                                <form method="post" asp-action="Details">
+                                    <input type="hidden" asp-for="OrderHeader.Id" name="OrderVM.OrderHeader.Id" />
+                                    <button type="submit" class="btn btn-success form-control my-1">Pay Now</button>
+                                </form>
                             }
                             @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                             {
