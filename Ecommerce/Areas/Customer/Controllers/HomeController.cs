@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using AspWebApps.DataAccess.Repository.IRepository;
 using AspWebApps.Models;
+using AspWebApps.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -58,6 +59,7 @@ namespace Ecommerce.Areas.Customer.Controllers
             {
                 existingCart.Count += cart.Count;
                 _unitOfWork.ShoppingCart.Update(existingCart);
+                _unitOfWork.Save();
             }
             else
             {
@@ -68,9 +70,12 @@ namespace Ecommerce.Areas.Customer.Controllers
                     ApplicationUserId = userId
                 };
                 _unitOfWork.ShoppingCart.Add(newCart);
+                _unitOfWork.Save();
+
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
             }
 
-            _unitOfWork.Save();
             TempData["success"] = "Item added to cart successfully!";
             return RedirectToAction(nameof(Index));
         }
