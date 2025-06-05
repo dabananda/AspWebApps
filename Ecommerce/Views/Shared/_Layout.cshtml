@@ -54,13 +54,7 @@
                         }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                <i class="bi bi-cart"></i>
-                                @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart) != null)
-                                {
-                                    <span class="badge bg-secondary">
-                                        @HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart)
-                                    </span>
-                                }
+                                @await Component.InvokeAsync("ShoppingCart")
                             </a>
                         </li>
                     </ul>
